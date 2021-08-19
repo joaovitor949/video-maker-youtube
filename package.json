@@ -1,0 +1,19 @@
+{
+  "name": "video-maker-youtube",
+  "version": "1.0.0",
+  "description": "A robots if maker automatic videos for youtube",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joaovitor949/video-maker-youtube.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joaovitor949/video-maker-youtube/issues"
+  },
+  "homepage": "https://github.com/joaovitor949/video-maker-youtube#readme"
+}
