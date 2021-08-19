@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/joaovitor949/video-maker-youtube/issues"
   },
-  "homepage": "https://github.com/joaovitor949/video-maker-youtube#readme"
+  "homepage": "https://github.com/joaovitor949/video-maker-youtube#readme",
+  "dependencies": {
+    "readline-sync": "^1.4.10"
+  }
 }
