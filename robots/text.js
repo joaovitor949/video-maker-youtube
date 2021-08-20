@@ -2,23 +2,28 @@ const algorithmia = require('algorithmia')
 const algorithmiaApiKey = require('../credentials/algorithmia.json').apiKey
 const sentenceBoundaryDetection = require('sbd')
 
-const watsonApiKey = require('../credentials/watson-nlu.json/')
+const watsonApiKey = require('../credentials/watson-nlu.json').apikey
 const fs = require('fs');
-const NaturalLanguageUnderstandingV1 = require('ibm-watson/natural-language-understanding/v1');
-const { IamAuthenticator } = require('ibm-watson/auth');
-
+const NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js')
+ 
 const nlu = new NaturalLanguageUnderstandingV1({
-  authenticator: new IamAuthenticator({ apikey: watsonApiKey }),
+  iam_apikey: watsonApiKey,
   version: '2018-04-05',
-  serviceUrl: 'https://api.us-south.natural-language-understanding.watson.cloud.ibm.com'
-});
+  url: 'https://api.us-south.compare-comply.watson.cloud.ibm.com'
+})
 
-async function robot(content) {
+const state = require('./state.js')
+
+async function robot() {
+  const content = state.load()
+
   await fetchContentFromWikipedia(content)
   sanitizeContent(content)
   breakContentIntoSentences(content)
   limitMaximumSentences(content)
   await fetchKeywordsOfAllSentences(content)
+
+  state.save(content)
 
   async function fetchContentFromWikipedia(content) {
     const algorithmiaAuthenticated = algorithmia(algorithmiaApiKey)
@@ -87,7 +92,8 @@ async function robot(content) {
         }
       }, (error, response) => {
         if (error) {
-          throw error
+          reject(error)
+          return
         }
 
         const keywords = response.keywords.map((keyword) => {
